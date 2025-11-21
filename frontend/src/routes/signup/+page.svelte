@@ -10,17 +10,19 @@
     <div class="w-full flex items-end justify-start">
         <img src={signupimage} alt="signin" class="h-5/6" />
     </div>
-    <div class="w-full flex flex-col px-12 py-12">
+    <div class="w-full flex flex-col px-12 py-12 space-y-6">
         <h1 class="font-bold text-3xl"> Sign Up </h1>
-        <Input icon={User} placeholder="Enter First Name" extraclass="mt-6"/>
-        <Input icon={User} placeholder="Enter Last Name" extraclass="mt-6"/>
-        <Input icon={User} placeholder="Enter Username" extraclass="mt-6"/>
-        <Input icon={Envelope} placeholder="Enter Email" extraclass="mt-6"/>
-        <Input icon={LockClosed} type="password" placeholder="Enter Password" extraclass="mt-6"/>
-        <Input icon={LockClosed} type="password" placeholder="Confirm Password" extraclass="mt-6"/>
-        <Checkbox text="I agree to all terms" extraclass="mt-6"/>
-        <Button text="Register" extraclass="mt-6"/>
-        <div class="flex-auto"></div>
-        <span> Already have an account? <a href="/signin" class="text-blue-500">Sign in</a></span>
+        <Input icon={User} placeholder="Enter First Name" />
+        <Input icon={User} placeholder="Enter Last Name" />
+        <Input icon={User} placeholder="Enter Username" />
+        <Input icon={Envelope} placeholder="Enter Email" />
+        <Input icon={LockClosed} type="password" placeholder="Enter Password" />
+        <Input icon={LockClosed} type="password" placeholder="Confirm Password" />
+        <Checkbox label="I agree to all terms" />
+        <Button text="Register"/>
+        <span class="mt-auto">
+            Already have an account?
+            <a href="/signin" class="text-blue-500">Sign in</a>
+        </span>
     </div>
 </div>

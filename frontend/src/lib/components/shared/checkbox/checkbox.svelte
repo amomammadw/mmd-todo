@@ -1,9 +1,10 @@
 <script lang="ts">
-    export let text: string;
-    export let extraclass: string = ""
+    import type {CheckBoxProps} from "./checkbox.type"
+
+    let { label, wrapperClass, ...rest }: CheckBoxProps = $props();
 </script>
 
-<div class="flex items-center {extraclass}">
-    <input type="checkbox" class="ring-0 outline-0 " />
-    <label for="" class="mx-3">{text}</label>
+<div class="flex items-center {wrapperClass}">
+    <input {...rest} type="checkbox" class="ring-0 outline-0 " />
+    <label for="" class="mx-3">{label}</label>
 </div>
