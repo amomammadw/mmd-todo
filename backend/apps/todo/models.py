@@ -12,10 +12,3 @@ class Todo(models.Model):
 
     def __str__(self):
         return self.title
-
-
-# class TodoItem(models.Model):
-#     todo = models.ForeignKey(Todo, on_delete=models.CASCADE, related_name="items")
-
-# def __str__(self):
-#     return self.title

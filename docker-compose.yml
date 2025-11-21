@@ -1,0 +1,90 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: development
+    container_name: mmd-todo-backend
+    volumes:
+      # Mount code for hot-reload in development
+      - ./backend:/app
+      # Persist media files (user uploads)
+      - backend_media:/app/media
+      # Persist static files (collected static files)
+      - backend_static:/app/static
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+      - DJANGO_SETTINGS_MODULE=core.settings
+      - PYTHONUNBUFFERED=1
+    env_file:
+      - .env
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py collectstatic --noinput || true &&
+             python manage.py runserver 0.0.0.0:8000"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/todo/')",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - mmd-todo-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: development
+    container_name: mmd-todo-frontend
+    volumes:
+      # Mount code for hot-reload in development
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.svelte-kit
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development
+      - VITE_API_URL=http://localhost:8000/api
+    env_file:
+      - .env
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('http').get('http://localhost:5173', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - mmd-todo-network
+    restart: unless-stopped
+
+volumes:
+  backend_media:
+    driver: local
+  backend_static:
+    driver: local
+
+networks:
+  mmd-todo-network:
+    driver: bridge
