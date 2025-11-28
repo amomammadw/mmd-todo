@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "apps.todo",
     "apps.board",
+    "apps.user",
 ]
 
 MIDDLEWARE = [

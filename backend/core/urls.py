@@ -22,9 +22,12 @@ from apps.board.router import router as board_router
 from django.urls import include
 from django.conf import settings
 from django.conf.urls.static import static
+from apps.user.router import router as user_router
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("api/auth/", include("django.contrib.auth.urls")),
+    path("api/auth/", include(user_router.urls)),
     path("api/", include(todo_router.urls)),
     path("api/", include(board_router.urls)),
 ]
